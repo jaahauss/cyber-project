@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}New suggestion{% endblock %}
+{% block content %}
+<h2>New suggestion</h2>
+<form action="/suggest" method="post">
+Suggestion: <br>
+<input type="text" name="content" required minlength="1" maxlength="50"></p>
+<input id="button" type="submit" value="Send">
+<!--<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">-->
+</form>
+{% endblock %}

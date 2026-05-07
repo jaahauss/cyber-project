@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}{{ topic }}{% endblock %}
+{% block content %}
+<h2>{{ topic }}</h2>
+<form action="/send_review" method="post">
+Grade: <br>
+<input type="radio" name="grade" value="1" required> 1
+<input type="radio" name="grade" value="2"> 2
+<input type="radio" name="grade" value="3"> 3
+<input type="radio" name="grade" value="4"> 4
+<input type="radio" name="grade" value="5"> 5
+<br>
+<input id="button" type="submit" value="Send">
+<input type="hidden" name="id" value="{{ id }}">
+<!--<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">-->
+</form>
+{% endblock %}

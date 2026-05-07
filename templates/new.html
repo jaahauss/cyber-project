@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}New book{% endblock %}
+{% block content %}
+<h2>New book</h2>
+<form action="/create" method="POST">
+<p>New book:<br>
+<input type="text" name="topic" required minlength="1" maxlength="50"></p>
+<input id="button" type="submit" value="Create book">
+<!--<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">-->
+</form>
+{% endblock %}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='main.css') }}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book Club</title>
+
+<body>
+  <div class="header">
+    <h1>Book Club</h1>
+  </div>
+  {% if session.username %}
+  <nav>
+    <ul>
+    {% if is_admin %}
+      <li><a href="/new">New book</a> 
+      <li><a href="/archive_index">Archive</a>
+      {% endif %}
+      <li><a href=#read-books>Read books</a>
+      <li><a href=#suggested-books>Suggested books</a>
+      <li><a href="/logout">Log out</a>
+    </ul>
+  </nav>
+  <p>
+  <div class="content">
+    <h2 id="read-books">Read books</h2>
+    {% for book in books %}
+    Book: <b>{{ book.topic }}</b> <br>
+    Read: {{ book.created_at.strftime("%Y-%m-%d") }} <br>
+    {% if book.gradesum %}
+    Grade: {{ book.gradesum/book.gradecount }}/5 based on {{ book[4] }} reviews<br>
+    {% else %}
+    Grade: <i>No reviews yet</i> <br>
+    {% endif %}
+    {% if book.messagecount %}
+    Comments: {{ book.messagecount}} <br>
+    {% else %}
+    Comments: <i>No comments yet</i> <br>
+    {% endif %}
+    <a href="/review/{{ book.id }}">Review the book</a> |
+    <a href="/write/{{ book.id }}">Add a comment</a> |
+    <a href="/result/{{ book.id }}">Read comments</a> {% if is_admin %} |
+    <a href="/archive/{{ book.id }}">Archive book</a> {% endif %}
+    <p>
+    {% endfor %}
+  </div>
+  <p>
+  <div class="content">
+    <h2 id="suggested-books">Suggested books</h2>
+    <ul>
+    {% for suggestion in suggestions %}
+      <li>{{ suggestion.content }}</li>
+      {% if is_admin %}
+      <a href="/delete_suggestion/{{ suggestion.id }}">Delete</a> |
+      <a href="/approve_suggestion/{{ suggestion.id }}">Approve</a> 
+      {% endif %}
+      {% endfor %}
+      <li><a href="/new_suggestion">Suggest a new book</a></li>
+    </ul>
+  </div>
+  <p>You are logged in as {{ session.username }} <a href="/logout">Log out</a></p>
+  
+  {% else %}
+  <p>
+  <div class="content">
+    <form action="/login" method="POST">
+    <p>Username:<br>
+    <input type="text" name="username"></p>
+    <p>Password:<br>
+    <input type="password" name="password"></p>
+    <input id="button" type="submit" value="Log in">
+    </form>
+    <p>
+    <div class="error">
+      {{ message }}
+    </div>
+  </div>
+  <p>
+  If you don't have an account you can create a new one <a href="/register">here</a>
+  {% endif %}
+</body>
+

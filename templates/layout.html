@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='main.css') }}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book Club - {% block title %}{% endblock %}</title>
+
+<body>
+  <div class="header">
+    <h1>Book Club</h1>
+  </div>
+  <p>
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+  <p>
+<a href="/">Front page</a>

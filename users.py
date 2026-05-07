@@ -1,0 +1,45 @@
+import os
+from db import db
+from flask import session, request, abort
+#from werkzeug.security import check_password_hash, generate_password_hash
+from sqlalchemy.sql import text
+
+def login(username, password):
+    sql = text("SELECT id, password FROM users WHERE username=:username")
+    result = db.session.execute(sql, {"username":username})
+    user = result.fetchone()
+    if not user:
+        return False
+    else:
+        #if check_password_hash(user.password, password):
+            session["user_id"] = user.id
+            session["username"] = username
+            #session["csrf_token"] = os.urandom(16).hex()
+            return True
+        #else:
+            #return False
+
+def logout():
+    del session["username"]
+
+def register(username, password):
+    #hash_value = generate_password_hash(password)
+    if password == "admin":
+        admin = '1'
+    else:
+        admin = '0'
+    # remove this if-else statement, and instead have admin always set as 0
+    try:
+        sql = text("INSERT INTO users (username,password,admin) VALUES (:username,:password,:admin)")
+        result = db.session.execute(sql, {"username":username, "password":password, "admin":admin}) #instead of password, use hash_value
+        db.session.commit()
+    except:
+        return False
+    return login(username, password)
+
+def user_id():
+    return session.get("user_id",0)
+
+#def check_csrf():
+    #if session["csrf_token"] != request.form["csrf_token"]:
+        #abort(403)

@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block title %}{{ topic }}{% endblock %}
+{% block content %}
+<h2>{{ topic }}</h2>
+<form action="/send" method="post">
+Comment: <br>
+<textarea name="content" rows="3" cols="40" required minlength="1" maxlength="100"></textarea>
+<br>
+<input id="button" type="submit" value="Send">
+<input type="hidden" name="id" value="{{ id }}">
+<!--<input type="hidden" name="csrf_token" value="{{ id }}">-->
+</form>
+{% endblock %}
