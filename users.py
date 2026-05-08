@@ -11,13 +11,13 @@ def login(username, password):
     if not user:
         return False
     else:
-        #if check_password_hash(user.password, password):
+        if user.password == password: #if check_password_hash(user.password, password):
             session["user_id"] = user.id
             session["username"] = username
             #session["csrf_token"] = os.urandom(16).hex()
             return True
-        #else:
-            #return False
+        else:
+            return False
 
 def logout():
     del session["username"]
